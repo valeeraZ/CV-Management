@@ -1,5 +1,6 @@
 package com.sylvain.chat;
 
+import com.sylvain.chat.system.exception.ErrorCode;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -11,8 +12,8 @@ class ChatApplicationTests {
     }
 
     @Test
-    void passwordEncrpt(){
-
+    void validationMessages(){
+        System.out.println("ErrorCode.USER_NAME_ALREADY_EXISTS.getMessage() = " + ErrorCode.USERNAME_ALREADY_EXISTS.getMessage());
     }
 
 }
