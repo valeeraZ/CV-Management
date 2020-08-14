@@ -9,10 +9,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,23 +26,17 @@ public class User extends AbstractAuditBase {
     private String id;
 
     @Column(nullable = false)
-    @Max(value = 32, message = "{username.long}")
-    @Min(value = 2, message = "{username.short}")
     private String username;
 
     @Column(nullable = false)
-    @Max(value = 32, message = "{name.long}")
     private String name;
 
     @Column(nullable = false)
-    @Pattern(regexp = "^(?![A-Za-z0-9]+$)(?![a-z0-9\\\\W]+$)(?![A-Za-z\\\\W]+$)(?![A-Z0-9\\\\W]+$)[a-zA-Z0-9\\\\W]{8,}$",
-    message = "{password.invalid}")
     @JsonIgnore
     private String password;
 
     @Column
     @JsonIgnore
-    @Email(message = "{email.invalid}")
     private String email;
 
     @Column(columnDefinition = "tinyint(1) default 1")
