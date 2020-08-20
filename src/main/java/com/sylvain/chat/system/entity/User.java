@@ -1,6 +1,8 @@
 package com.sylvain.chat.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sylvain.chat.system.representation.UserPrivateRepresentation;
+import com.sylvain.chat.system.representation.UserPublicRepresentation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -54,5 +56,20 @@ public class User extends AbstractAuditBase {
         return authorities;
     }
 
+    public UserPublicRepresentation toUserPublicRepresentation(){
+        return UserPublicRepresentation.builder()
+                .name(this.name)
+                .username(this.username)
+                .enabled(this.enabled).build();
+    }
+
+    public UserPrivateRepresentation toUserPrivateRepresentation(){
+        return UserPrivateRepresentation.builder()
+                .name(this.name)
+                .username(this.username)
+                .email(this.email)
+                .createdAt(this.getCreatedAt())
+                .enabled(this.enabled).build();
+    }
 
 }

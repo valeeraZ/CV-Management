@@ -8,12 +8,12 @@ import com.sylvain.chat.system.entity.UserRole;
 import com.sylvain.chat.system.enums.RoleType;
 import com.sylvain.chat.system.exception.RoleNotFoundException;
 import com.sylvain.chat.system.exception.UsernameAlreadyExistsException;
-import com.sylvain.chat.system.exception.UsernameNotFoundException;
 import com.sylvain.chat.system.repository.RoleRepository;
 import com.sylvain.chat.system.repository.UserRepository;
 import com.sylvain.chat.system.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,8 +47,9 @@ public class UserService {
      * @return the user object
      */
     public User find(String username){
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(ImmutableMap.of("username",username)));
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("username.notfound")
+        );
     }
 
     /**

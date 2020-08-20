@@ -13,11 +13,11 @@ import java.util.Map;
 @ToString
 @NoArgsConstructor
 public class ErrorResponse {
+    private Instant timestamp;
     private int code;
     private int status;
     private String message;
     private String path;
-    private Instant timestamp;
     private final HashMap<String, Object> errorDetail = new HashMap<>();
 
     public ErrorResponse(int code, int status, String message, String path, Map<String, Object> errorDetail) {

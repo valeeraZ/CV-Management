@@ -3,6 +3,10 @@ package com.sylvain.chat.system.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -45,12 +49,43 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 
-    @ExceptionHandler({RoleNotFoundException.class, UsernameNotFoundException.class})
-    public ResponseEntity<ErrorResponse> handleUserRoleNotFoundException(BaseException ex, HttpServletRequest request){
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleRoleNotFoundException(RoleNotFoundException ex, HttpServletRequest request){
         ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
-        log.error("UserRoleNotFoundException: " + errorResponse.toString());
+        log.error("RoleNotFoundException: " + errorResponse.toString());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
+
+    @Deprecated
+    @ExceptionHandler(UsernameNotExistedException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotExistedException(UsernameNotExistedException ex, HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
+        log.error("UserNotFoundException: " + errorResponse.toString());
+        return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
+    }
+
+    /*@ExceptionHandler({BadCredentialsException.class,DisabledException.class,UsernameNotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex, HttpServletRequest request){
+        Map<String, Object> errors = new HashMap<>(8);
+        String message = ex.getMessage();
+        errors.put("message",message);
+        //whether wrong password or wrong username, we always return "bad credentials" message
+        ErrorCode errorCode = ErrorCode.CREDENTIALS_INVALID;
+
+        if(ex instanceof DisabledException){
+            errorCode = ErrorCode.ACCOUNT_DISABLED;
+        }
+        ErrorResponse errorResponse = new ErrorResponse(errorCode,request.getRequestURI(),errors);
+        log.error("AuthenticationException: " + ex.toString());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }*/
+
+    /*@ExceptionHandler(LoginFailedException.class)
+    public ResponseEntity<ErrorResponse> handleLoginFailedException(LoginFailedException ex,HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
+        log.error("LoginFailedException: " + errorResponse.toString());
+        return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
+    }*/
 
 
 }

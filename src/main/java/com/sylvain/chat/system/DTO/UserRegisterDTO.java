@@ -7,25 +7,25 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegisterDTO {
     @NotBlank
-    @Max(value = 32, message = "username.long")
-    @Min(value = 2, message = "username.short")
+    @Size(min = 2, max = 32, message = "{username.size}")
     private String username;
 
     @NotBlank
-    @Max(value = 32, message = "name.long")
+    @Size(min = 2, max = 32, message = "{name.size}")
     private String name;
 
     @NotBlank
-    @Pattern(regexp = "^(?![A-Za-z0-9]+$)(?![a-z0-9\\\\W]+$)(?![A-Za-z\\\\W]+$)(?![A-Z0-9\\\\W]+$)[a-zA-Z0-9\\\\W]{8,}$",
-            message = "password.invalid")
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+            message = "{password.invalid}")
     private String password;
 
-    @Email(message = "email.invalid")
+    @Email(message = "{email.invalid}")
     private String email;
 
     public User toUser(){
