@@ -12,19 +12,20 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegisterDTO {
-    @NotBlank
+    @NotBlank(message = "{username.blank}")
     @Size(min = 2, max = 32, message = "{username.size}")
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "{name.blank}")
     @Size(min = 2, max = 32, message = "{name.size}")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "{password.blank}")
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
             message = "{password.invalid}")
     private String password;
 
+    @NotBlank(message = "{email.invalid}")
     @Email(message = "{email.invalid}")
     private String email;
 

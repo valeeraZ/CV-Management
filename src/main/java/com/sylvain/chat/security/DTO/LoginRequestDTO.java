@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LoginRequestDTO {
-    private String username;
+    private String usernameOrEmail;
     private String password;
     private boolean rememberMe;
 }

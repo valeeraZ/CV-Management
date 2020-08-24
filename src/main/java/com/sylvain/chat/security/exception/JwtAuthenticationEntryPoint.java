@@ -1,11 +1,8 @@
 package com.sylvain.chat.security.exception;
 
-import com.alibaba.fastjson.JSONObject;
 import com.sylvain.chat.security.utils.JsonErrorHandler;
 import com.sylvain.chat.system.exception.ErrorCode;
-import com.sylvain.chat.system.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -43,8 +40,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         if(authException instanceof InsufficientAuthenticationException){
             errorCode = ErrorCode.LOGIN_PREREQUISITE;
         }
-        log.warn(authException.getMessage() + ", cause: " + errorCode.getMessage());
-
+        log.warn(authException.getMessage() +", Resource URI: " + request.getRequestURI() +", from IP: " + request.getRemoteAddr());
         JsonErrorHandler.printJson(errorCode,request,response);
         //response.sendError(HttpServletResponse.SC_UNAUTHORIZED,errorCode.getMessage());
     }

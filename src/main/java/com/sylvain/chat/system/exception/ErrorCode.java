@@ -14,8 +14,9 @@ import java.util.EnumSet;
 public enum ErrorCode {
 
     USERNAME_ALREADY_EXISTS(1001, HttpStatus.BAD_REQUEST, "username.exists"),
+    EMAIL_ALREADY_EXISTS(1001,HttpStatus.BAD_REQUEST,"email.exists"),
     ROLE_NOT_FOUND(1002, HttpStatus.NOT_FOUND, "role.notfound"),
-    USERNAME_NOT_FOUND(1002,HttpStatus.NOT_FOUND,"username.notfound"),
+    EMAIL_NOT_FOUND(1002,HttpStatus.NOT_FOUND,"email.notfound"),
     VERIFY_JWT_FAILED(1003, HttpStatus.UNAUTHORIZED,"token.failed"),
     METHOD_ARGUMENT_INVALID(1004,HttpStatus.BAD_REQUEST,"argument.failed"),
     CREDENTIALS_INVALID(1003,HttpStatus.UNAUTHORIZED,"credentials.invalid"),

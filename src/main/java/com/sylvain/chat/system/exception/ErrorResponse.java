@@ -1,5 +1,6 @@
 package com.sylvain.chat.system.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,8 +13,9 @@ import java.util.Map;
 @Getter
 @ToString
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ErrorResponse {
-    private Instant timestamp;
+    private String timestamp;
     private int code;
     private int status;
     private String message;
@@ -25,7 +27,7 @@ public class ErrorResponse {
         this.status = status;
         this.message = message;
         this.path = path;
-        this.timestamp = Instant.now();
+        this.timestamp = Instant.now().toString();
         if(!ObjectUtils.isEmpty(errorDetail)){
             this.errorDetail.putAll(errorDetail);
         }

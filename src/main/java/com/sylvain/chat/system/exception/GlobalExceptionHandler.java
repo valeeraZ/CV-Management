@@ -3,10 +3,6 @@ package com.sylvain.chat.system.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -38,29 +34,29 @@ public class GlobalExceptionHandler {
             errors.put(fieldName,message);
         });
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.METHOD_ARGUMENT_INVALID,request.getRequestURI(),errors);
-        log.error("MethodArgumentNotValidException: " + errorResponse.toString());
+        log.warn("MethodArgumentNotValidException: " + errors.keySet());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler(UsernameAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException ex, HttpServletRequest request){
+    @ExceptionHandler({UsernameAlreadyExistsException.class, EmailAlreadyExistsException.class})
+    public ResponseEntity<ErrorResponse> handleUsernameOrEmailAlreadyExistsException(UsernameAlreadyExistsException ex, HttpServletRequest request){
         ErrorResponse errorResponse = new ErrorResponse(ex,request.getRequestURI());
-        log.error("UsernameAlreadyExistsException: " + errorResponse.toString());
+        log.warn("UsernameOrEmailAlreadyExistsException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleRoleNotFoundException(RoleNotFoundException ex, HttpServletRequest request){
         ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
-        log.error("RoleNotFoundException: " + errorResponse.toString());
+        log.error("RoleNotFoundException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 
     @Deprecated
-    @ExceptionHandler(UsernameNotExistedException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotExistedException(UsernameNotExistedException ex, HttpServletRequest request){
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEmailNotFoundException(EmailNotFoundException ex, HttpServletRequest request){
         ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
-        log.error("UserNotFoundException: " + errorResponse.toString());
+        log.warn("EmailNotFoundException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 

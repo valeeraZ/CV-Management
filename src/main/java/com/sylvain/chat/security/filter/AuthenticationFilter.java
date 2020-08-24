@@ -7,6 +7,7 @@ import com.sylvain.chat.security.entity.AuthUser;
 import com.sylvain.chat.security.utils.JWTTokenUtils;
 import com.sylvain.chat.system.exception.ErrorCode;
 import com.sylvain.chat.system.exception.LoginFailedException;
+import com.sylvain.chat.system.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
@@ -35,9 +36,11 @@ import java.util.stream.Collectors;
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final ThreadLocal<Boolean> rememberMe = new ThreadLocal<>();
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager){
+    public AuthenticationFilter(AuthenticationManager authenticationManager, UserService userService){
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
         super.setFilterProcessesUrl(SecurityConstants.LOGIN_URL);
     }
 
@@ -48,7 +51,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         try {
             LoginRequestDTO loginRequestDTO = objectMapper.readValue(request.getInputStream(), LoginRequestDTO.class);
             rememberMe.set(loginRequestDTO.isRememberMe());
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword());
+            String usernameOrEmail = loginRequestDTO.getUsernameOrEmail();
+            //check it's an email address or a sequence of character presenting username
+            if(usernameOrEmail.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
+                //get the correspondent username
+                //possible to throw EmailNotFoundException
+                usernameOrEmail = userService.findUsernameByEmail(usernameOrEmail);
+            }
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usernameOrEmail, loginRequestDTO.getPassword());
             return authenticationManager.authenticate(authentication);
         } catch (IOException e){
             log.error("Exception: " + e.getMessage());

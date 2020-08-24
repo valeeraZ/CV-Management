@@ -7,7 +7,11 @@ import com.sylvain.chat.security.utils.CurrentUserUtils;
 import com.sylvain.chat.security.utils.JWTTokenUtils;
 import com.sylvain.chat.system.entity.User;
 import com.sylvain.chat.system.representation.UserPrivateRepresentation;
+import com.sylvain.chat.system.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class AuthController {
@@ -30,12 +34,22 @@ public class AuthController {
     private final ThreadLocal<Boolean> rememberMe = new ThreadLocal<>();
     private final AuthenticationManager authenticationManager;
     private final CurrentUserUtils currentUserUtils;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<UserPrivateRepresentation> authenticateUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO){
         rememberMe.set(loginRequestDTO.isRememberMe());
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword());
 
+        String usernameOrEmail = loginRequestDTO.getUsernameOrEmail();
+        //check it's an email address or a sequence of character presenting username
+        if(EmailValidator.getInstance().isValid(usernameOrEmail)){
+            //get the correspondent username
+            //possible to throw EmailNotFoundException
+            usernameOrEmail = userService.findUsernameByEmail(usernameOrEmail);
+        }
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usernameOrEmail, loginRequestDTO.getPassword());
+        log.info("User tries to authenticate: " + usernameOrEmail);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         //login success

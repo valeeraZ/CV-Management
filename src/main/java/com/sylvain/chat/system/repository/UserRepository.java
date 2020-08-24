@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByUsername(String username);
 
+    Optional<User> findByEmail(String email);
+
     @Modifying
     @Transactional(rollbackFor = Exception.class)
     void deleteByUsername(String username);

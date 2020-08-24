@@ -31,5 +31,4 @@ class ChatApplicationTests {
         String token = JWTTokenUtils.createToken(username,authorities,rememberMe);
         System.out.println("token = " + token);
     }
-
 }
