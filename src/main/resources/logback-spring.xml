@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="com.example.xxx" level="DEBUG"/>
+    <appender name="aiAppender"
+              class="com.microsoft.applicationinsights.logback.ApplicationInsightsAppender">
+    </appender>
+    <root level="info">
+        <appender-ref ref="aiAppender" />
+    </root>
+</configuration>

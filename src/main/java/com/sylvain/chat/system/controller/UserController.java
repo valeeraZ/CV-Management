@@ -19,6 +19,11 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping("/")
+    public String hello(){
+        return "<h1>Hello World!</h1>";
+    }
+
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid UserRegisterDTO userRegisterDTO){
         userService.save(userRegisterDTO);

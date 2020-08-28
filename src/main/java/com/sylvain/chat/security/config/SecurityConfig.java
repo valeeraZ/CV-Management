@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login","/register").permitAll()
                 // access to some resource needs authentication
-                //.antMatchers("/hello").authenticated()
+                .antMatchers("/hello").permitAll()
                 //.antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()

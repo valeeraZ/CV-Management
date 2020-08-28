@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "user_role")
 public class UserRole extends AbstractAuditBase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

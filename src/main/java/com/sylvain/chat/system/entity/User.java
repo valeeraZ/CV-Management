@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Builder
 @Entity
 @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
+@Table(name = "user")
 public class User extends AbstractAuditBase {
     @Id
     @GeneratedValue(generator = "jpa-uuid")
@@ -41,7 +42,7 @@ public class User extends AbstractAuditBase {
     @JsonIgnore
     private String email;
 
-    @Column(columnDefinition = "tinyint(1) default 1")
+    @Column(columnDefinition = "bit default 1")
     @JsonIgnore
     private Boolean enabled;
 
