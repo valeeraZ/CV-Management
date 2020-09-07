@@ -10,8 +10,7 @@ i18n
   .init({
     debug:true,
     fallbackLng:{
-      'default':['en'],
-      'zh':['zh','zh-TW']
+      'default':['en']
     },
     keySeparator: false, // we do not use keys in form messages.welcome
 

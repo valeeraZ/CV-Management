@@ -1,14 +1,11 @@
 {
-    "title": "使用React和i18N製作的翻譯",
-    "description": {
-      "sign-in":"登錄",
-      "first-name": "名字",
-      "last-name": "姓",
-      "email": "電子郵件地址",
-      "email-username":"電子郵件地址或用戶名",
-      "password":"密碼",
-      "remember-me":"記住我",
-      "forget-password":"忘記密碼？",
-      "no-account":"還沒有賬號？請註冊"
-    }
-  }
+  "sign-in": "登錄",
+  "first-name": "名字",
+  "last-name": "姓",
+  "email": "電子郵件地址",
+  "email-username": "電子郵件地址或用戶名",
+  "password": "密碼",
+  "remember-me": "記住我",
+  "forget-password": "忘記密碼？",
+  "no-account": "還沒有賬號？請註冊"
+}
