@@ -1,0 +1,11 @@
+{
+  "sign-in":"Sign In",
+  "first-name": "First Name",
+  "last-name": "Last Name",
+  "email": "Email Address",
+  "email-username":"Email or Username",
+  "password":"Password",
+  "remember-me":"Remember me",
+  "forget-password":"Forgot password?",
+  "no-account":"Don't have an account? Sign up"
+}

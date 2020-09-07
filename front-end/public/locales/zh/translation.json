@@ -1,0 +1,11 @@
+{
+  "sign-in":"登录",
+  "first-name": "名字",
+  "last-name": "姓",
+  "email": "电子邮件地址",
+  "email-username":"电子邮件地址或用户名",
+  "password":"密码",
+  "remember-me":"记住我",
+  "forget-password":"忘记密码？",
+  "no-account":"还没有账号？请注册"
+}
