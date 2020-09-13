@@ -38,10 +38,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler({UsernameAlreadyExistsException.class, EmailAlreadyExistsException.class})
-    public ResponseEntity<ErrorResponse> handleUsernameOrEmailAlreadyExistsException(UsernameAlreadyExistsException ex, HttpServletRequest request){
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException ex, HttpServletRequest request){
         ErrorResponse errorResponse = new ErrorResponse(ex,request.getRequestURI());
-        log.warn("UsernameOrEmailAlreadyExistsException: " + ex.getData());
+        log.warn("UsernameAlreadyExistsException: " + ex.getData());
+        return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex, HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex,request.getRequestURI());
+        log.warn("EmailAlreadyExistsException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 
