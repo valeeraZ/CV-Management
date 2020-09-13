@@ -191,8 +191,8 @@
               <goal>install-node-and-npm</goal>
             </goals>
             <configuration>
-              <nodeVersion>v8.9.4</nodeVersion>
-              <npmVersion>5.6.0</npmVersion>
+              <nodeVersion>v12.16.1</nodeVersion>
+              <npmVersion>6.13.4</npmVersion>
             </configuration>
           </execution>
           <!-- Install all project dependencies -->
@@ -224,7 +224,7 @@
             <phase>generate-resources</phase>
             <configuration>
               <target>
-                <copy todir="src/main/resources/static">
+                <copy todir="${project.build.directory}/classes/static">
                   <fileset dir="${project.basedir}/front-end/build"/>
                 </copy>
               </target>
