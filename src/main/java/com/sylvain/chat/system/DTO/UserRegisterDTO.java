@@ -13,11 +13,12 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 public class UserRegisterDTO {
     @NotBlank(message = "{username.blank}")
-    @Size(min = 2, max = 32, message = "{username.size}")
+    @Size(min = 2, max = 16, message = "{username.size}")
+    @Pattern(regexp = "^\\w+$",message = "{username.invalid}")
     private String username;
 
     @NotBlank(message = "{name.blank}")
-    @Size(min = 2, max = 32, message = "{name.size}")
+    @Size(min = 2, max = 16, message = "{name.size}")
     private String name;
 
     @NotBlank(message = "{password.blank}")
