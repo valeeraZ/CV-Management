@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,9 +11,14 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import Alert from '@material-ui/lab/Alert';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from '../components/Copyright';
 import { useTranslation } from 'react-i18next';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import { authenticationService } from '../_services/authentication.service'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,9 +52,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
+  const LoginSchema = yup.object().shape({
+    usernameOrEmail: yup.string()
+      .min(2, t('username-size'))
+      .max(32, t('username-size'))
+      .required(t('required')),
+    password: yup.string()
+      .required(t('required'))
+  });
+
+  useEffect(() => {
+    //already logged in
+    if (authenticationService.currentUserValue !== null) {
+      props.history.push("/")
+    }
+  })
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -61,60 +81,102 @@ export default function LoginPage() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-          {t('sign-in')}
+            {t('sign-in')}
           </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label= {t('email-username')}
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label={t('password')}
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label={t('remember-me')}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              {t('sign-in')}
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  {t('forget-password')}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="signup" variant="body2">
-                  {t('no-account')}
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
+          <Formik
+            initialValues={{
+              usernameOrEmail: "",
+              password: "",
+              rememberMe: false,
+            }}
+            validationSchema={LoginSchema}
+            onSubmit={(values, actions) => {
+              actions.setStatus();
+              authenticationService.login(values.usernameOrEmail, values.password, values.rememberMe).then(
+                user => {
+                  props.history.push("/");
+                },
+                error => {
+                  //console.log(error);
+                  actions.setSubmitting(false);
+                  actions.setStatus(error);
+                }
+              )
+            }}
+          >
+            {({ errors, status, handleChange, touched, isSubmitting }) => (
+              <Form className={classes.form} >
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  onChange={handleChange}
+                  id="usernameOrEmail"
+                  label={t('email-username')}
+                  name="usernameOrEmail"
+                  autoComplete="username"
+                  autoFocus
+                  helperText={
+                    errors.username && touched.username
+                      ? errors.username
+                      : null
+                  }
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  onChange={handleChange}
+                  name="password"
+                  label={t('password')}
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  helperText={
+                    errors.password && touched.password
+                      ? errors.password
+                      : null
+                  }
+                />
+                <FormControlLabel
+                  control={<Checkbox name="rememberMe" onChange={handleChange} color="primary" />}
+                  label={t('remember-me')}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  {isSubmitting
+                    ? <CircularProgress color="secondary" />
+                    : t('sign-in')}
+                </Button>
+
+                {status &&
+                  <Alert severity="error">{status.message}</Alert>}
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      {t('forget-password')}(unavailable for now)
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="register" variant="body2">
+                      {t('no-account')}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Form>
+            )}
+
+          </Formik>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
         </div>
       </Grid>
     </Grid>

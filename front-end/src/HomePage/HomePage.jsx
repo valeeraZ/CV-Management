@@ -1,31 +1,25 @@
 import React from 'react';
-import axios from '../axios-init';
+import { authenticationService } from '../_services/authentication.service';
+import { useTranslation } from 'react-i18next';
 
-export default class HomePage extends React.Component  {
+export default function HomePage(props) {
 
-    state = {};
+    const currentUser = authenticationService.currentUserValue
+    const { t, i18n } = useTranslation();
 
-    componentDidMount(){
-        this.hello();
+
+    function logout() {
+        authenticationService.logout();
+        props.history.push("/login");
     }
 
-    hello = () => {
-        /*fetch('/api/user/hello')
-            .then(response => response.text())
-            .then(message => {
-                this.setState({ message: message });
-            });*/
-        const _this = this;
-        axios.get("/api/user/hello").then(function(res){
-           _this.setState({message : res.data})
-        })
-    };
-    render(){
-        return (
-            <div>
-                <h2>message from server: {this.state.message}</h2>
-            </div>       
-        )
-    }
-    
+    return (
+
+        <div>
+            <h1>Hi, {currentUser.name}, @{currentUser.username}</h1>
+            <button onClick={logout}>{t('log-out')}</button>
+        </div>
+
+    )
+
 }

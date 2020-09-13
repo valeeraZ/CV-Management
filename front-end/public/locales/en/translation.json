@@ -1,11 +1,24 @@
 {
   "sign-in":"Sign In",
+  "sign-up":"Sign Up",
+  "sign-up-success":"You have successfully registered. Redirecting...",
+  "log-out":"Log out",
   "first-name": "First Name",
   "last-name": "Last Name",
+  "username":"Username",
+  "username-invalid":"Your username should only contain letters, numbers and undersocre",
+  "username-blank":"The username is your identity. It will be generated if you don't provide for now. You can modify it later.",
+  "name":"Name",
   "email": "Email Address",
   "email-username":"Email or Username",
   "password":"Password",
   "remember-me":"Remember me",
   "forget-password":"Forgot password?",
-  "no-account":"Don't have an account? Sign up"
+  "no-account":"Don't have an account? Sign up",
+  "have-account":"Already have an account? Sign in",
+  "required":"This field is required",
+  "email-invalid":"Please provide a valid email address",
+  "username-size":"The username must be between 2 and 16 characters",
+  "name-size":"The name must be between 2 and 16 characters",
+  "password-invalid":"The password must be at least 8 characters long and contain at least an upper case, a number and a special symbol"
 }

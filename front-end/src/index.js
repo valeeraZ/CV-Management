@@ -6,18 +6,19 @@ import * as serviceWorker from './serviceWorker';
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 import LoginPage from './LoginPage/LoginPage';
 import RegisterPage from './RegisterPage/RegisterPage';
 import HomePage from './HomePage/HomePage';
+import {PrivateRoute} from './_utils/PrivateRoute';
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback="loading">
     <BrowserRouter>
       <Switch>
-        <Route exact path ="/" component={HomePage}/>
+        <PrivateRoute exact path ="/" component={HomePage}/>
         <Route path='/login' component={LoginPage} />
         <Route path='/register' component={RegisterPage}/>
       </Switch>

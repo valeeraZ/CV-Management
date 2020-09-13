@@ -8,7 +8,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
-    debug:true,
+    debug:false,
     fallbackLng:{
       'default':['en']
     },
