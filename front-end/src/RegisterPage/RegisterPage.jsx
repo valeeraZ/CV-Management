@@ -87,7 +87,8 @@ export default function RegisterPage(props) {
               // Load Chance
               var Chance = require('chance');
               var chance = new Chance();
-              values.username = chance.string({ length: 16, symbols:false })
+              values.username = chance.string({ length: 8, 
+                                              pool:'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'})
             }
             userService.register(values.username, values.name, values.password, values.email).then(
               success => {
