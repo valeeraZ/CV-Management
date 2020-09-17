@@ -1,6 +1,6 @@
 # This workflow will build a Java project with Maven and deploy it to My Azure Resource
 
-name: Buidl and Deploy to Azure
+name: Build and Deploy to Azure
 
 on:
   push:
