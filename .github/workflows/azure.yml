@@ -3,11 +3,8 @@
 name: Build and Deploy to Azure
 
 on:
-  push:
-    branches: [ master ]
-    paths-ignore:   # No Re-deploy
-    - README.md
-    - LICENSE
+  release:
+    types: [published]
   
 jobs:
   build:
