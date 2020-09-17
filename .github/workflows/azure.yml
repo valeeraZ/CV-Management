@@ -8,8 +8,6 @@ on:
     paths-ignore:   # No Re-deploy
     - README.md
     - LICENSE
-  pull_request:
-    branches: [ master ]
   
 jobs:
   build:
@@ -31,6 +29,9 @@ jobs:
       uses: sliteteam/github-action-git-crypt-unlock@1.1.0
       env: 
         GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - name: Delete git crypt directory
+      run: rm -rf .git/git-crypt
 
     # Java Environment    
     - name: Set up JDK 1.8
