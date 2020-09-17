@@ -42,17 +42,8 @@ jobs:
       with:
         java-version: 1.8
 
-    - name: Cache Maven archetypes
-      uses: actions/cache@v1
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-
-
     # deploy web app using Azure credentials
-    - name: Deploy with Maven
+    - name: Build with Maven
       run: mvn clean package
     - uses: azure/webapps-deploy@v1
       with:
