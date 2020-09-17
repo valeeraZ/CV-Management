@@ -23,9 +23,9 @@ jobs:
       uses: actions/checkout@master
 
     # Azure login
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    #- uses: azure/login@v1
+    #  with:
+    #    creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     # Unlock secret file
     - name: GitHub Action to unlock git-crypt secrets
@@ -42,16 +42,16 @@ jobs:
       with:
         java-version: 1.8
 
-    #- uses: azure/webapps-deploy@v2
-    #  with:
-    #    app-name: 'chat-web'
-
     # deploy web app using Azure credentials
-    - name: Deploy with Azure Maven
-      run: mvn package azure-webapp:deploy
 
+    - name: Deploy with Maven
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: chat-web
+        publish-profile: ${{ secrets.azureWebAppPublishProfile }} # See https://github.com/Azure/actions-workflow-samples/tree/master/AppService
+        package: '${{ github.workspace }}/target/*.jar'
 
     # Azure logout 
-    - name: logout
-      run: |
-        az logout
+    #- name: logout
+    #  run: |
+    #    az logout
