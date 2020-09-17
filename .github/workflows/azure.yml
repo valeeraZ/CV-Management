@@ -3,8 +3,14 @@
 name: Build and Deploy to Azure
 
 on:
-  release:
-    types: [published]
+  #release:
+  # types: [published]
+  push:
+    branches: [ master ]
+    paths-ignore:   # No Re-deploy
+    - README.md
+    - LICENSE
+
   
 jobs:
   build:
@@ -35,13 +41,15 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+
+    #- uses: azure/webapps-deploy@v2
+    #  with:
+    #    app-name: 'chat-web'
 
     # deploy web app using Azure credentials
-    - uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'chat-web'
+    - name: Deploy with Azure Maven
+      run: mvn package azure-webapp:deploy
+
 
     # Azure logout 
     - name: logout
