@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage(props) {
   const classes = useStyles();
+  // eslint-disable-next-line
   const { t, i18n } = useTranslation();
   const LoginSchema = yup.object().shape({
     usernameOrEmail: yup.string()

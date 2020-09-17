@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RegisterPage(props) {
   const classes = useStyles();
+  // eslint-disable-next-line
   const { t, i18n } = useTranslation();
   const RegisterSchema = yup.object().shape({
     username: yup.string()

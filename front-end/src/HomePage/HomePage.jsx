@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 export default function HomePage(props) {
 
     const currentUser = authenticationService.currentUserValue
+    // eslint-disable-next-line
     const { t, i18n } = useTranslation();
 
 
