@@ -45,7 +45,7 @@ jobs:
     # deploy web app using Azure credentials
     - name: Build with Maven
       run: mvn clean package
-    - uses: azure/webapps-deploy@v1
+    - uses: azure/webapps-deploy@v2
       with:
         app-name: chat-web
         publish-profile: ${{ secrets.azureWebAppPublishProfile }} # See https://github.com/Azure/actions-workflow-samples/tree/master/AppService
