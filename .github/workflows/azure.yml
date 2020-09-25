@@ -3,13 +3,13 @@
 name: Build and Deploy to Azure
 
 on:
-  #release:
-  # types: [published]
-  push:
-    branches: [ master ]
-    paths-ignore:   # No Re-deploy
-    - README.md
-    - LICENSE
+  release:
+    types: [published]
+  #push:
+    #branches: [ master ]
+    #paths-ignore:   # No Re-deploy
+    #- README.md
+    #- LICENSE
 
   
 jobs:
