@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/login","/register").permitAll()
                 // access to some resource needs authentication
                 .antMatchers("/hello").permitAll()
+                .antMatchers("/api/friendship/**").authenticated()
                 //.antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()

@@ -22,7 +22,9 @@ public enum ErrorCode {
     CREDENTIALS_INVALID(1003,HttpStatus.UNAUTHORIZED,"credentials.invalid"),
     ACCOUNT_DISABLED(1003,HttpStatus.UNAUTHORIZED,"account.disabled"),
     LOGIN_PREREQUISITE(1003,HttpStatus.UNAUTHORIZED,"login.prerequisite"),
-    ACCESS_DENIED(1003,HttpStatus.FORBIDDEN,"access.denied");
+    ACCESS_DENIED(1003,HttpStatus.FORBIDDEN,"access.denied"),
+    PERSON_NOT_FOUND(1002,HttpStatus.NOT_FOUND,"person.notfound"),
+    FRIENDSHIP_ALREADY_EXISTS(1001,HttpStatus.BAD_REQUEST,"friendship.exists");
 
     private final int code;
     private final HttpStatus status;

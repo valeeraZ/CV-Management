@@ -73,4 +73,11 @@ public class User extends AbstractAuditBase {
                 .enabled(this.enabled).build();
     }
 
+    public Person toPerson(){
+        return Person.builder()
+                .id(this.id)
+                .name(this.name)
+                .username(this.username).build();
+    }
+
 }

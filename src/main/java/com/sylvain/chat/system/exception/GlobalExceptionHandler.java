@@ -67,6 +67,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 
+    /**
+     * This is a database neo4j-mysql sync exception which should not happen
+     */
+    @ExceptionHandler(PersonNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePersonNotFoundException(PersonNotFoundException ex, HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
+        log.error("PersonNotFoundException: " + ex.getData());
+        return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
+    }
+
+    @ExceptionHandler(FriendshipAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleFriendshipAlreadyExistsException(FriendshipAlreadyExistsException ex, HttpServletRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
+        log.warn("FriendshipAlreadyExistsException: " + ex.getData());
+        return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
+    }
     /*@ExceptionHandler({BadCredentialsException.class,DisabledException.class,UsernameNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex, HttpServletRequest request){
         Map<String, Object> errors = new HashMap<>(8);

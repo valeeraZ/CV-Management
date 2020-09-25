@@ -2,6 +2,7 @@ package com.sylvain.chat.system.service;
 
 import com.google.common.collect.ImmutableMap;
 import com.sylvain.chat.system.DTO.UserRegisterDTO;
+import com.sylvain.chat.system.entity.Person;
 import com.sylvain.chat.system.entity.Role;
 import com.sylvain.chat.system.entity.User;
 import com.sylvain.chat.system.entity.UserRole;
@@ -10,6 +11,7 @@ import com.sylvain.chat.system.exception.EmailAlreadyExistsException;
 import com.sylvain.chat.system.exception.EmailNotFoundException;
 import com.sylvain.chat.system.exception.RoleNotFoundException;
 import com.sylvain.chat.system.exception.UsernameAlreadyExistsException;
+import com.sylvain.chat.system.repository.PersonRepository;
 import com.sylvain.chat.system.repository.RoleRepository;
 import com.sylvain.chat.system.repository.UserRepository;
 import com.sylvain.chat.system.repository.UserRoleRepository;
@@ -27,9 +29,11 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PersonRepository personRepository;
 
     /**
      * register a user with role USER
+     * in MySQL as an User and Neo4j as a Person
      * if exception occurs, roll back this transaction
      * @param userRegisterDTO the request from controller
      */
@@ -42,6 +46,9 @@ public class UserService {
         userRepository.save(user);
         Role userRole = roleRepository.findByName(RoleType.USER.getName()).orElseThrow(()->new RoleNotFoundException(ImmutableMap.of("rolename",RoleType.USER.getName())));
         userRoleRepository.save(new UserRole(user,userRole));
+
+        Person person = user.toPerson();
+        personRepository.save(person);
     }
 
     /**
