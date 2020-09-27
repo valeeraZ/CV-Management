@@ -42,13 +42,21 @@ public class User extends AbstractAuditBase {
     @JsonIgnore
     private String email;
 
-    @Column(columnDefinition = "bit default 1")
+    @Column(columnDefinition = "tinyint(1) default 1")
     @JsonIgnore
     private Boolean enabled;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<UserRole> userRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<FriendRequest> friendRequestsSent = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<FriendRequest> friendRequestsReceived = new ArrayList<>();
 
     public List<SimpleGrantedAuthority> getRoles(){
         List<Role> roles = userRoles.stream().map(UserRole::getRole).collect(Collectors.toList());

@@ -1,7 +1,5 @@
 package com.sylvain.chat.system.controller;
 
-import com.sylvain.chat.system.DTO.FriendshipDTO;
-import com.sylvain.chat.system.entity.Friendship;
 import com.sylvain.chat.system.representation.FriendshipRepresentation;
 import com.sylvain.chat.system.service.FriendshipService;
 import lombok.RequiredArgsConstructor;
@@ -14,21 +12,26 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
-@RequestMapping("/api/friendship")
+@RequestMapping("/api/friend")
 public class FriendshipController {
     private final FriendshipService friendshipService;
 
-    @GetMapping("/{username}")
+    /**
+     * get the collection of user's friends
+     * the user must have authenticated before
+     * @return Set<FriendshipRepresentation>
+     */
+    @GetMapping("/")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public ResponseEntity<Set<FriendshipRepresentation>> friendships(@PathVariable String username){
-        Set<FriendshipRepresentation> friendships = friendshipService.findFriendships(username);
+    public ResponseEntity<Set<FriendshipRepresentation>> friendships(){
+        Set<FriendshipRepresentation> friendships = friendshipService.findFriendships();
         return ResponseEntity.ok().body(friendships);
     }
 
-    @PostMapping("/")
+    /*@PostMapping("/")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<Void> addFriends(@RequestBody FriendshipDTO friendshipDTO){
         friendshipService.save(friendshipDTO);
         return ResponseEntity.ok().build();
-    }
+    }*/
 }

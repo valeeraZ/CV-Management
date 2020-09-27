@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FriendshipDTO {
-    private String user_username;
-    private String friend_username;
-
-
+public class FriendRequestDTO {
+    @NotBlank
+    private String recipient_username;
 }

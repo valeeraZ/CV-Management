@@ -2,7 +2,7 @@ package com.sylvain.chat.system.service;
 
 
 import com.google.common.collect.ImmutableMap;
-import com.sylvain.chat.system.DTO.FriendshipDTO;
+import com.sylvain.chat.security.utils.CurrentUserUtils;
 import com.sylvain.chat.system.entity.Friendship;
 import com.sylvain.chat.system.entity.Person;
 import com.sylvain.chat.system.exception.FriendshipAlreadyExistsException;
@@ -26,12 +26,10 @@ public class FriendshipService {
     private final FriendshipRepository friendshipRepository;
 
     /**
-     * Save a new friendship
+     * Save a new friendship after a request is accepted by recipient from FriendRequestService
      */
     @Transactional(rollbackFor = Exception.class)
-    public void save(FriendshipDTO friendshipDTO){
-        String user_username = friendshipDTO.getUser_username();
-        String friend_username = friendshipDTO.getFriend_username();
+    public void save(String user_username, String friend_username){
         //check existence
         friendshipNotExists(user_username,friend_username);
 
@@ -44,10 +42,11 @@ public class FriendshipService {
 
     /**
      * Search user's friendships
-     * @param username his username
+     * the user is saved in Spring Security context
      * @return a collection of his friendships
      */
-    public Set<FriendshipRepresentation> findFriendships(String username){
+    public Set<FriendshipRepresentation> findFriendships(){
+        String username = CurrentUserUtils.getCurrentUsername();
         Person person = findPerson(username);
         return person.getFriendships(username).stream().map(Friendship::toFriendshipRepresentation).collect(Collectors.toSet());
     }

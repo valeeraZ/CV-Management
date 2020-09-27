@@ -59,11 +59,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 
-    @Deprecated
     @ExceptionHandler(EmailNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEmailNotFoundException(EmailNotFoundException ex, HttpServletRequest request){
         ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
         log.warn("EmailNotFoundException: " + ex.getData());
+        return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
+    }
+
+    /**
+     * handle my customized Username not found exception (not the one in Spring Security)
+     * this is an exception should never happen
+     */
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException ex, HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
+        log.error("UsernameNotFoundException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 
@@ -81,6 +91,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleFriendshipAlreadyExistsException(FriendshipAlreadyExistsException ex, HttpServletRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
         log.warn("FriendshipAlreadyExistsException: " + ex.getData());
+        return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
+    }
+
+    /**
+     * This is an exception which should never happen
+     * Usually when a request is deleted by direct db operation, not by the client front end
+     */
+    @ExceptionHandler(FriendRequestIdNotExistsException.class)
+    public ResponseEntity<ErrorResponse> handleFriendRequestIdNotExistsException(FriendRequestIdNotExistsException ex, HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
+        log.error("FriendRequestNotExistsException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
     /*@ExceptionHandler({BadCredentialsException.class,DisabledException.class,UsernameNotFoundException.class})
