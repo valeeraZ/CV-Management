@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 public class FriendshipRepresentation {
-    private String user_username;
-    private String friend_username;
+    private UserPublicRepresentation user;
+    private UserPublicRepresentation friend;
     private int since;
 }

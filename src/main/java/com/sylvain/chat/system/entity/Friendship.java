@@ -1,6 +1,8 @@
 package com.sylvain.chat.system.entity;
 
+import com.sylvain.chat.system.repository.UserRepository;
 import com.sylvain.chat.system.representation.FriendshipRepresentation;
+import com.sylvain.chat.system.utils.PersonToUser;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -29,9 +31,17 @@ public class Friendship {
     }
 
     public FriendshipRepresentation toFriendshipRepresentation(){
+        /*User user = userRepository.findByUsername(this.user.getUsername()).orElseThrow(
+                () -> new UsernameNotFoundException("username.notfound")
+        );
+
+        User friend = userRepository.findByUsername(this.friend.getUsername()).orElseThrow(
+                () -> new UsernameNotFoundException("username.notfound")
+        );*/
+
         return FriendshipRepresentation.builder()
-                .user_username(user.getUsername())
-                .friend_username(friend.getUsername())
+                .user(PersonToUser.toUserPublicRepresentation(user))
+                .friend(PersonToUser.toUserPublicRepresentation(friend))
                 .since(since).build();
     }
 }
