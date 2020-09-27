@@ -51,7 +51,7 @@ public class AuthController {
         }
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usernameOrEmail, loginRequestDTO.getPassword());
-        log.info("User tries to authenticate: " + usernameOrEmail);
+        log.info("Authentication Try: User " + usernameOrEmail);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         //login success

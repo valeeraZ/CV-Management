@@ -7,17 +7,13 @@ import com.sylvain.chat.system.entity.Role;
 import com.sylvain.chat.system.entity.User;
 import com.sylvain.chat.system.entity.UserRole;
 import com.sylvain.chat.system.enums.RoleType;
-import com.sylvain.chat.system.exception.EmailAlreadyExistsException;
-import com.sylvain.chat.system.exception.EmailNotFoundException;
-import com.sylvain.chat.system.exception.RoleNotFoundException;
-import com.sylvain.chat.system.exception.UsernameAlreadyExistsException;
+import com.sylvain.chat.system.exception.*;
 import com.sylvain.chat.system.repository.PersonRepository;
 import com.sylvain.chat.system.repository.RoleRepository;
 import com.sylvain.chat.system.repository.UserRepository;
 import com.sylvain.chat.system.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,12 +49,13 @@ public class UserService {
 
     /**
      * find an user by his username
+     * might throw customized UsernameNotFoundException
      * @param username
      * @return the user object
      */
     public User find(String username){
         return userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("username.notfound")
+                () -> new UsernameNotFoundException(ImmutableMap.of("username",username))
         );
     }
 

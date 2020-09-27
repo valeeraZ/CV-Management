@@ -40,7 +40,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         if(authException instanceof InsufficientAuthenticationException){
             errorCode = ErrorCode.LOGIN_PREREQUISITE;
         }
-        log.warn(authException.getMessage() +", Resource URI: " + request.getRequestURI() +", from IP: " + request.getRemoteAddr());
+        log.warn("Authentication failed: "+authException.getMessage() +", Resource URI: " + request.getRequestURI() +", from IP: " + request.getRemoteAddr());
         JsonErrorHandler.printJson(errorCode,request,response);
         //response.sendError(HttpServletResponse.SC_UNAUTHORIZED,errorCode.getMessage());
     }

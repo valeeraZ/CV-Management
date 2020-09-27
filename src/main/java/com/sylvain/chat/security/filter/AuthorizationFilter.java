@@ -44,20 +44,21 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String authorization){
-        log.info("get authentication");
+        //log.info("get authentication");
         String token = authorization.replace(SecurityConstants.TOKEN_PREFIX,"");
+        String username = null;
         try{
-            String username = JWTTokenUtils.getUsernameByToken(token);
             //log.info("check username: " + username);
+            username = JWTTokenUtils.getUsernameByToken(token);
             if(!StringUtils.isEmpty(username)){
-                log.info("User tries to authenticate: " + username);
+                //log.info("User tries to authenticate: " + username);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(username,null, userDetails.getAuthorities());
                 return userDetails.isEnabled() ? usernamePasswordAuthenticationToken : null;
             }
         }catch (UsernameNotFoundException | SignatureException | ExpiredJwtException | MalformedJwtException | IllegalArgumentException e){
-            log.warn("JWT is invalid. Detail: " + e.getMessage());
+            log.warn("Authentication failed: User " + username +"'s JWT is invalid. Detail: " + e.getMessage());
         }
 
         return null;
