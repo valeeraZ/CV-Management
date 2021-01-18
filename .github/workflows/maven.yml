@@ -44,3 +44,4 @@ jobs:
         password: ${{ secrets.VPS_PASSWORD }}
         source: "./target/chat-0.0.1-SNAPSHOT.jar"
         target: "/app/chat/"
+        strip_components: 1
