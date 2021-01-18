@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum RoleType {
-    USER("USER","utilisateur"),
-    TEMP_USER("TEMP_USER","utilisateur temporaire"),
-    ADMIN("ADMIN","Gestionaire");
+    USER("USER","user"),
+    TEMP_USER("TEMP_USER","temporary user"),
+    ADMIN("ADMIN","admin");
 
     String name;
     String description;

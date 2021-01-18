@@ -18,11 +18,7 @@
   <properties> 
     <java.version>1.8</java.version> 
   </properties>  
-  <dependencies> 
-    <dependency> 
-      <groupId>org.springframework.boot</groupId>  
-      <artifactId>spring-boot-starter-amqp</artifactId> 
-    </dependency>  
+  <dependencies>
     <dependency> 
       <groupId>org.springframework.boot</groupId>  
       <artifactId>spring-boot-starter-data-jpa</artifactId> 
@@ -33,17 +29,14 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-neo4j</artifactId>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.55</version>
     </dependency>
     <dependency> 
       <groupId>org.springframework.boot</groupId>  
       <artifactId>spring-boot-starter-web</artifactId> 
-    </dependency>  
-    <dependency> 
-      <groupId>org.springframework.boot</groupId>  
-      <artifactId>spring-boot-starter-websocket</artifactId> 
-    </dependency>  
+    </dependency>
     <dependency> 
       <groupId>org.springframework.boot</groupId>  
       <artifactId>spring-boot-starter-security</artifactId> 
@@ -60,7 +53,12 @@
     <dependency> 
       <groupId>org.projectlombok</groupId>  
       <artifactId>lombok</artifactId> 
-    </dependency>  
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
     <dependency> 
       <groupId>org.springframework.boot</groupId>  
       <artifactId>spring-boot-starter-test</artifactId>  
@@ -71,12 +69,7 @@
           <artifactId>junit-vintage-engine</artifactId> 
         </exclusion> 
       </exclusions> 
-    </dependency>  
-    <dependency> 
-      <groupId>org.springframework.amqp</groupId>  
-      <artifactId>spring-rabbit-test</artifactId>  
-      <scope>test</scope> 
-    </dependency>  
+    </dependency>
     <dependency> 
       <groupId>junit</groupId>  
       <artifactId>junit</artifactId>  
@@ -109,16 +102,6 @@
       <artifactId>springfox-swagger-ui</artifactId>  
       <version>2.6.1</version> 
     </dependency>
-    <dependency>
-      <groupId>com.microsoft.azure</groupId>
-      <artifactId>applicationinsights-spring-boot-starter</artifactId>
-      <version>2.6.1</version>
-    </dependency>
-    <dependency>
-      <groupId>com.microsoft.azure</groupId>
-      <artifactId>applicationinsights-logging-logback</artifactId>
-      <version>2.6.1</version>
-    </dependency>
   </dependencies>  
   <build> 
     <plugins> 
@@ -143,42 +126,6 @@
             </fileset>
           </filesets>
         </configuration>
-      </plugin>
-      <plugin> 
-        <groupId>com.microsoft.azure</groupId>  
-        <artifactId>azure-webapp-maven-plugin</artifactId>  
-        <version>1.9.1</version>  
-        <configuration> 
-          <authType>azure_cli</authType>  
-          <schemaVersion>V2</schemaVersion>  
-          <resourceGroup>Chat</resourceGroup>  
-          <appName>chat-web</appName>  
-          <pricingTier>B1</pricingTier>  
-          <region>westeurope</region>  
-          <runtime> 
-            <os>linux</os>  
-            <javaVersion>jre8</javaVersion>  
-            <webContainer>jre8</webContainer>
-          </runtime>  
-          <!-- Begin of App Settings  -->  
-          <appSettings> 
-            <property> 
-              <name>JAVA_OPTS</name>  
-              <value>-Dserver.port=80</value> 
-            </property> 
-          </appSettings>  
-          <!-- End of App Settings  -->  
-          <deployment> 
-            <resources> 
-              <resource> 
-                <directory>${project.basedir}/target</directory>  
-                <includes> 
-                  <include>*.jar</include>
-                </includes> 
-              </resource> 
-            </resources> 
-          </deployment> 
-        </configuration> 
       </plugin>
       <plugin>
         <groupId>com.github.eirslett</groupId>

@@ -20,5 +20,8 @@
     "email-invalid":"Veuillez fournir une adresse email valide",
     "username-size":"Votre nom d'utilisateur doit contenir entre 2 et 16 caractères",
     "name-size":"Votre nom doit contenir entre 2 et 16 caractères",
-    "password-invalid":"Votre mot de passe doit comporter au moins 8 characters dont au moins un majuscule, un chiffre et un caractère spécial"
+    "password-invalid":"Votre mot de passe doit comporter au moins 8 characters dont au moins un majuscule, un chiffre et un caractère spécial",
+    "chat":"Discussions",
+    "people":"Personnes",
+    "greeting":"Bonjour"
 }

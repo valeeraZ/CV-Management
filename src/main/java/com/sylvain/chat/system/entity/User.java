@@ -50,13 +50,13 @@ public class User extends AbstractAuditBase {
     @JsonIgnore
     private List<UserRole> userRoles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    /*@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<FriendRequest> friendRequestsSent = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<FriendRequest> friendRequestsReceived = new ArrayList<>();
+    private List<FriendRequest> friendRequestsReceived = new ArrayList<>();*/
 
     public List<SimpleGrantedAuthority> getRoles(){
         List<Role> roles = userRoles.stream().map(UserRole::getRole).collect(Collectors.toList());
@@ -81,11 +81,11 @@ public class User extends AbstractAuditBase {
                 .enabled(this.enabled).build();
     }
 
-    public Person toPerson(){
+    /*public Person toPerson(){
         return Person.builder()
                 .id(this.id)
                 .name(this.name)
                 .username(this.username).build();
-    }
+    }*/
 
 }

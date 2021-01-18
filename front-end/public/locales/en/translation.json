@@ -20,5 +20,8 @@
   "email-invalid":"Please provide a valid email address",
   "username-size":"The username must be between 2 and 16 characters",
   "name-size":"The name must be between 2 and 16 characters",
-  "password-invalid":"The password must be at least 8 characters long and contain at least an upper case, a number and a special symbol"
+  "password-invalid":"The password must be at least 8 characters long and contain at least an upper case, a number and a special symbol",
+  "chat":"Chat",
+  "people":"People",
+  "greeting":"Hello"
 }

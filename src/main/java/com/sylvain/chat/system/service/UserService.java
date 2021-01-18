@@ -2,13 +2,11 @@ package com.sylvain.chat.system.service;
 
 import com.google.common.collect.ImmutableMap;
 import com.sylvain.chat.system.DTO.UserRegisterDTO;
-import com.sylvain.chat.system.entity.Person;
 import com.sylvain.chat.system.entity.Role;
 import com.sylvain.chat.system.entity.User;
 import com.sylvain.chat.system.entity.UserRole;
 import com.sylvain.chat.system.enums.RoleType;
 import com.sylvain.chat.system.exception.*;
-import com.sylvain.chat.system.repository.PersonRepository;
 import com.sylvain.chat.system.repository.RoleRepository;
 import com.sylvain.chat.system.repository.UserRepository;
 import com.sylvain.chat.system.repository.UserRoleRepository;
@@ -25,7 +23,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final PersonRepository personRepository;
+    //private final PersonRepository personRepository;
 
     /**
      * register a user with role USER
@@ -43,8 +41,8 @@ public class UserService {
         Role userRole = roleRepository.findByName(RoleType.USER.getName()).orElseThrow(()->new RoleNotFoundException(ImmutableMap.of("rolename",RoleType.USER.getName())));
         userRoleRepository.save(new UserRole(user,userRole));
 
-        Person person = user.toPerson();
-        personRepository.save(person);
+        /*Person person = user.toPerson();
+        personRepository.save(person);*/
     }
 
     /**
