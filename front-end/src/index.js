@@ -11,6 +11,7 @@ import {
 import LoginPage from './LoginPage/LoginPage';
 import RegisterPage from './RegisterPage/RegisterPage';
 import HomePage from './HomePage/HomePage';
+import IntroPage from './IntroPage/IntroPage';
 import {PrivateRoute} from './_utils/PrivateRoute';
 
 ReactDOM.render(
@@ -18,7 +19,8 @@ ReactDOM.render(
     <Suspense fallback="loading">
     <BrowserRouter>
       <Switch>
-        <PrivateRoute exact path ="/" component={HomePage}/>
+        <Route exact path = "/" component={IntroPage}/>
+        <PrivateRoute path ="/home" component={HomePage}/>
         <Route path='/login' component={LoginPage} />
         <Route path='/register' component={RegisterPage}/>
       </Switch>
