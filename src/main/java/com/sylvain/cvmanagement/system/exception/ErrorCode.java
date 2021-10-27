@@ -24,9 +24,9 @@ public enum ErrorCode {
     ACCOUNT_DISABLED(1003,HttpStatus.UNAUTHORIZED,"account.disabled"),
     LOGIN_PREREQUISITE(1003,HttpStatus.UNAUTHORIZED,"login.prerequisite"),
     ACCESS_DENIED(1003,HttpStatus.FORBIDDEN,"access.denied"),
-    PERSON_NOT_FOUND(1002,HttpStatus.NOT_FOUND,"person.notfound"),
-    FRIENDSHIP_ALREADY_EXISTS(1001,HttpStatus.BAD_REQUEST,"friendship.exists"),
-    REQUEST_NOT_FOUND(1002,HttpStatus.NOT_FOUND,"request.notfound");
+    BAD_FILE_EXTENSION(1004, HttpStatus.BAD_REQUEST, "file.extension"),
+    EMPTY_FILE(1004, HttpStatus.BAD_REQUEST, "file.empty"),
+    EMPTY_KEYWORD(1004, HttpStatus.BAD_REQUEST,"keyword.empty");
 
     private final int code;
     private final HttpStatus status;

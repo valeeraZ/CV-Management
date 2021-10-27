@@ -13,7 +13,7 @@ public class StaticResourceMap implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 映射静态资源根目录到  frontend
+        // mapping static ressources to frontend
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
                 .resourceChain(true)

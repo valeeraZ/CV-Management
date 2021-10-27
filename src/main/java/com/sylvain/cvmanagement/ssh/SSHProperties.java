@@ -7,13 +7,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ToString(exclude="password")
+@ToString(exclude="privatekey")
 @ConfigurationProperties(prefix="ssh")
 public class SSHProperties {
     private String host;
     private Integer port;
     private String username;
-    private String password;
+    private String privatekey;
     private Forward forward;
 
     @Getter

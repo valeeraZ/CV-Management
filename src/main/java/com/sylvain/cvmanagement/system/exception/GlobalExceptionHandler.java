@@ -1,15 +1,19 @@
 package com.sylvain.cvmanagement.system.exception;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +39,29 @@ public class GlobalExceptionHandler {
         });
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.METHOD_ARGUMENT_INVALID,request.getRequestURI(),errors);
         log.warn("MethodArgumentNotValidException: " + errors.keySet());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex, HttpServletRequest request){
+        Map<String, Object> errors = new HashMap<>(8);
+        ex.getConstraintViolations().forEach(error -> {
+            String fieldName = ((PathImpl)error.getPropertyPath()).getLeafNode().getName();
+            String message = error.getMessage();
+            errors.put(fieldName,message);
+        });
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.METHOD_ARGUMENT_INVALID,request.getRequestURI(),errors);
+        log.warn("ConstraintViolationException: " + errors.keySet());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorResponse> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex, HttpServletRequest request){
+        String name = ex.getParameterName();
+        String message = ex.getMessage();
+        Map<String, Object> errors = ImmutableMap.of(name, message);
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.METHOD_ARGUMENT_INVALID,request.getRequestURI(),errors);
+        log.warn("MissingServletRequestParameterException: " + errors.keySet());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
@@ -77,56 +104,27 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
     }
 
-    /**
-     * This is a database neo4j-mysql sync exception which should not happen
-     */
-    /*@ExceptionHandler(PersonNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlePersonNotFoundException(PersonNotFoundException ex, HttpServletRequest request){
-        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
-        log.error("PersonNotFoundException: " + ex.getData());
+    @ExceptionHandler(BadFormatException.class)
+    public ResponseEntity<ErrorResponse> handleBadFormatException(BadFormatException ex, HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex,request.getRequestURI());
+        log.warn("BadFormatException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
-    }*/
+    }
 
-    /*@ExceptionHandler(FriendshipAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleFriendshipAlreadyExistsException(FriendshipAlreadyExistsException ex, HttpServletRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
-        log.warn("FriendshipAlreadyExistsException: " + ex.getData());
+    @ExceptionHandler(EmptyFileException.class)
+    public ResponseEntity<ErrorResponse> handleEmptyFileException(EmptyFileException ex, HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex,request.getRequestURI());
+        log.warn("EmptyFileException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
-    }*/
+    }
 
-    /**
-     * This is an exception which should never happen
-     * Usually when a request is deleted by direct db operation, not by the client front end
-     */
-    /*@ExceptionHandler(FriendRequestIdNotExistsException.class)
-    public ResponseEntity<ErrorResponse> handleFriendRequestIdNotExistsException(FriendRequestIdNotExistsException ex, HttpServletRequest request){
-        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
-        log.error("FriendRequestNotExistsException: " + ex.getData());
+    @ExceptionHandler(EmptyKeywordException.class)
+    public ResponseEntity<ErrorResponse> handleEmptyKeywordException(EmptyKeywordException ex, HttpServletRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(ex,request.getRequestURI());
+        log.warn("EmptyKeywordException: " + ex.getData());
         return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
-    }*/
+    }
 
-    /*@ExceptionHandler({BadCredentialsException.class,DisabledException.class,UsernameNotFoundException.class})
-    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex, HttpServletRequest request){
-        Map<String, Object> errors = new HashMap<>(8);
-        String message = ex.getMessage();
-        errors.put("message",message);
-        //whether wrong password or wrong username, we always return "bad credentials" message
-        ErrorCode errorCode = ErrorCode.CREDENTIALS_INVALID;
-
-        if(ex instanceof DisabledException){
-            errorCode = ErrorCode.ACCOUNT_DISABLED;
-        }
-        ErrorResponse errorResponse = new ErrorResponse(errorCode,request.getRequestURI(),errors);
-        log.error("AuthenticationException: " + ex.toString());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-    }*/
-
-    /*@ExceptionHandler(LoginFailedException.class)
-    public ResponseEntity<ErrorResponse> handleLoginFailedException(LoginFailedException ex,HttpServletRequest request){
-        ErrorResponse errorResponse = new ErrorResponse(ex, request.getRequestURI());
-        log.error("LoginFailedException: " + errorResponse.toString());
-        return ResponseEntity.status(ex.getErrorCode().getStatus()).body(errorResponse);
-    }*/
 
 
 }

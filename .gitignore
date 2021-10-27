@@ -34,3 +34,4 @@ build/
 
 spring-boot-client.log
 application-dev.properties
+id_rsa

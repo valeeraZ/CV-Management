@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class UserController {
     private final UserService userService;
 
@@ -21,7 +21,7 @@ public class UserController {
         return "Hello World!";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/users")
     public ResponseEntity<Void> register(@RequestBody @Valid UserRegisterDTO userRegisterDTO){
         userService.save(userRegisterDTO);
         return ResponseEntity.ok().build();

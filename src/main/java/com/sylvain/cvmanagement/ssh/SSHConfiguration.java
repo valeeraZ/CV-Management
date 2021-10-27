@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @EnableConfigurationProperties(SSHProperties.class)
 @ConditionalOnProperty(prefix = "ssh", value = "enabled", havingValue = "true", matchIfMissing = false)
 @Slf4j
-// 实现 LoadTimeWeaverAware 接口是因为需要 SSH 正向代理需要在EntityManagerFactory加载前运行
+// use LoadTimeWeaverAware because SSH proxy needs to execute before loading EntityManagerFactory
 public class SSHConfiguration implements LoadTimeWeaverAware {
 
     private final Session session;
@@ -26,11 +26,12 @@ public class SSHConfiguration implements LoadTimeWeaverAware {
     public SSHConfiguration(SSHProperties sshProperties) {
         Session session = null;
         try {
-            // 可以自行为 JSch 添加日志，需要实现 com.jcraft.jsch.Logger 接口
+            // by implementing 'com.jcraft.jsch.Logger' interface you can add log to JSch
             // JSch.setLogger(new JSchLogger())
-            session = new JSch().getSession(sshProperties.getUsername(), sshProperties.getHost(), sshProperties.getPort());
+            JSch jsch = new JSch();
+            jsch.addIdentity(sshProperties.getPrivatekey());
+            session = jsch.getSession(sshProperties.getUsername(), sshProperties.getHost(), sshProperties.getPort());
             session.setConfig("StrictHostKeyChecking", "no");
-            session.setPassword(sshProperties.getPassword());
             session.connect();
             SSHProperties.Forward forward = sshProperties.getForward();
             if (forward != null) {
@@ -44,7 +45,7 @@ public class SSHConfiguration implements LoadTimeWeaverAware {
     }
 
     @PreDestroy
-    // 配置销毁时，断开 SSH 链接
+    // disconnect SSH
     public void disconnect() {
         if (session != null) {
             session.disconnect();
