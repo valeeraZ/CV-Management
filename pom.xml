@@ -13,8 +13,8 @@
   <artifactId>chat</artifactId>  
   <version>0.0.1-SNAPSHOT</version>  
   <packaging>jar</packaging>
-  <name>Chat</name>  
-  <description>Chat application</description>  
+  <name>CVManagement</name>
+  <description>CVManagement application</description>
   <properties> 
     <java.version>1.8</java.version> 
   </properties>  

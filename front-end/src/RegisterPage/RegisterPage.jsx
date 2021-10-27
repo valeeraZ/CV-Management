@@ -61,7 +61,7 @@ export default function RegisterPage(props) {
   useEffect(() => {
     //already logged in
     if (authenticationService.currentUserValue !== null) {
-      props.history.push("/")
+      props.history.push("/home")
     }
   })
 
@@ -96,7 +96,7 @@ export default function RegisterPage(props) {
                 actions.setStatus("success");
                 setTimeout(function(){
                   authenticationService.login(values.username, values.password, false);
-                  props.history.push("/");
+                  props.history.push("/home");
                 }, 3000)
                 
               },

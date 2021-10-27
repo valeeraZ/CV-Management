@@ -1,2 +1,0 @@
-/src/main/resources/application.properties filter=git-crypt diff=git-crypt
-.gitattributes !filter !diff

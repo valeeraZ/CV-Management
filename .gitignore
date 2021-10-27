@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+spring-boot-client.log
+application-dev.properties

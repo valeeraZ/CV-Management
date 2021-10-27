@@ -68,7 +68,7 @@ export default function LoginPage(props) {
   useEffect(() => {
     //already logged in
     if (authenticationService.currentUserValue !== null) {
-      props.history.push("/")
+      props.history.push("/home")
     }
   })
 
@@ -95,7 +95,7 @@ export default function LoginPage(props) {
               actions.setStatus();
               authenticationService.login(values.usernameOrEmail, values.password, values.rememberMe).then(
                 user => {
-                  props.history.push("/");
+                  props.history.push("/home");
                 },
                 error => {
                   //console.log(error);
